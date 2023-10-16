@@ -43,3 +43,22 @@ describe('./musicians/:id endpoint', ()=>{
         expect(response.body.name).toBe("Mick Jagger")
     });
 })
+
+describe('./musicians/:id additional testing', () => {
+    it('creates a new musician', async ()=> {
+        const response = await request(app)
+        .post('/musicians')
+        .expect(200);
+    })
+
+    it('updates a musician based on id', async ()=> {
+        const response = await request(app)
+        .put('/musicians/3')
+        .send({name:"Michael Jackson"})
+        .expect(200)
+        console.log(response)
+        expect(response.body.name).toBe('Michael Jackson')
+    })
+
+    it('deletes a musician')
+})

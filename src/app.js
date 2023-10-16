@@ -58,9 +58,9 @@ app.post('/musicians', async(req, res, next)=>{
 //Update musisican by id
 app.put('/musicians/:id', async(req, res, next)=>{
     try{
-        const updated = await Musician.update(req.body, 
-            {where: {id:req.params.id
-        }})
+        const musician = await Musician.findByPk(req.params.id)
+        const updated = await musician.update(req.body)
+        console.log(updated);
         res.json(updated);
     }
     catch(err){
