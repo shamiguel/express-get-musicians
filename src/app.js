@@ -17,17 +17,6 @@ app.get('/musicians', async(req, res)=>{
     }
 });
 
-app.get('/musicians/:id', async(req, res)=>{
-    console.log(req.params)
-    try{
-        const id = req.params.id;
-        const musician = await Musician.findByPk(id);
-        res.json(musician)
-    }catch(error){
-        res.status(500).json({error: `An error occured when fetching musician`});
-    }
-});
-
 app.get('/bands', async(req, res)=>{
     try{
         const bands = await Band.findAll();
