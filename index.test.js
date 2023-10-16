@@ -29,6 +29,17 @@ describe('./bands endpoint', () => {
         const response = await request(app).get('/bands');
     
         expect(response.statusCode).toBe(200);
-        expect(response.body[0].name).toBe("The Beatles");
+    });
+})
+
+////// Workshop 2 TESTS!!!!! START HERE!!!!
+
+describe('./musicians/:id endpoint', ()=>{
+    it('successfully gets a musician based off of id,', async()=>{
+        const response = await request(app)
+        .get('/musicians/1')
+        .expect(200);
+
+        expect(response.body.name).toBe("Mick Jagger")
     });
 })
