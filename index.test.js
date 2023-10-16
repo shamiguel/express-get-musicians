@@ -60,5 +60,11 @@ describe('./musicians/:id additional testing', () => {
         expect(response.body.name).toBe('Michael Jackson')
     })
 
-    it('deletes a musician')
+    it('deletes a musician based on id', async () => {
+        const musician = await Musician.findByPk(3)
+        const response = await request(app)
+        .delete('/musicians/3')
+        .expect(200)
+
+    })
 })
