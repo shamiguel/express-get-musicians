@@ -41,8 +41,45 @@ app.get('/musicians/:id', async(req, res, next)=>{
 })
 
 
+//Create route update(put) and delete
+app.use(express.urlencoded());
 
+//Create new artist
+app.post('/musicians', async(req, res, next)=>{
+    try{
+        const artist = await Musician.create(req.body);
+        res.json(artist);
+    }
+    catch(err){
+        next(err);
+    }
+})
 
+//Update musisican by id
+app.put('/musicians/:id', async(req, res, next)=>{
+    try{
+        const updated = await Musician.update(req.body, 
+            {where: {id:req.params.id
+        }})
+        res.json(updated);
+    }
+    catch(err){
+        next(err);
+    }
+})
+//Delete by id
+app.delete('/musicians/:id', async (req, res, next)=>{
+   try{
+    // const deleted = await Musician.findByPk(req.params.id);
+    await Musician.destroy({
+        where: {id: req.params.id}});
+    res.sendStatus(200);
+   }
+   catch(err){
+    next(err);
+   }
+    
+})
 
 
 
