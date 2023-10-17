@@ -1,5 +1,6 @@
 const app = require("./src/app");
-const { db } = require("./db/connection")
+const { db } = require("./db/connection");
+const {router} = require("./routes/musicians");
 const port = 3000;
 
 app.listen(port, () => {
