@@ -9,6 +9,8 @@ const { Musician } = require('./models/index')
 const app = require('./src/app');
 const seedMusician = require("./seedData");
 
+
+
 describe('./musicians endpoint', () => {
     // Write your tests here
     it('successful get method returns musicians', async()=>{
@@ -22,7 +24,7 @@ describe('./musicians endpoint', () => {
         expect(true).toBe(true);
     })
 });
-
+/*
 describe('./bands endpoint', () => {
     // Write your tests here
     it('successful get method returns bands', async()=>{
@@ -31,7 +33,7 @@ describe('./bands endpoint', () => {
         expect(response.statusCode).toBe(200);
     });
 })
-
+*/
 ////// Workshop 2 TESTS!!!!! START HERE!!!!
 
 describe('./musicians/:id endpoint', ()=>{
@@ -68,3 +70,4 @@ describe('./musicians/:id additional testing', () => {
 
     })
 })
+

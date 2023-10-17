@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const Musician = require("../models/Musician")
 
 
-
-
-router.get('/musicians', async(req, res)=>{
+router.get('/', async(req, res)=>{
     try{
         const musicians = await Musician.findAll();
         res.json(musicians)
@@ -26,7 +25,7 @@ router.get('/musicians', async(req, res)=>{
 
 
 
-router.get('/musicians/:id', async(req, res, next)=>{
+router.get('/:id', async(req, res, next)=>{
     try{
         const id = req.params.id;
         const musician = await Musician.findByPk(id);
@@ -40,7 +39,7 @@ router.get('/musicians/:id', async(req, res, next)=>{
 
 
 //Create new artist
-router.post('/musicians', async(req, res, next)=>{
+router.post('/', async(req, res, next)=>{
     try{
         const artist = await Musician.create(req.body);
         res.json(artist);
@@ -51,7 +50,7 @@ router.post('/musicians', async(req, res, next)=>{
 })
 
 //Update musisican by id
-router.put('/musicians/:id', async(req, res, next)=>{
+router.put('/:id', async(req, res, next)=>{
     try{
         const musician = await Musician.findByPk(req.params.id)
         const updated = await musician.update(req.body)
@@ -63,7 +62,7 @@ router.put('/musicians/:id', async(req, res, next)=>{
     }
 })
 //Delete by id
-router.delete('/musicians/:id', async (req, res, next)=>{
+router.delete('/:id', async (req, res, next)=>{
    try{
     // const deleted = await Musician.findByPk(req.params.id);
     await Musician.destroy({
