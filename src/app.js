@@ -5,12 +5,12 @@ const { Band } = require("../models/index")
 const { db } = require("../db/connection")
 
 const port = 3000;
-
+const bandRouter = require("../routes/bands");
 const musicianRouter = require("../routes/musicians");
 
 app.use(express.json());
 app.use("/musicians", musicianRouter);
-
+app.use("/bands", bandRouter);
 
 //TODO: Create a GET /musicians route to return all musicians 
 
