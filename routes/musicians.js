@@ -1,20 +1,10 @@
 const express = require("express");
-const app = express();
-const { Musician } = require("../models/index")
-const { Band } = require("../models/index")
-const { db } = require("../db/connection")
-
-const port = 3000;
-
-const musicianRouter = require("../routes/musicians");
-
-app.use(express.json());
-app.use("/musicians", musicianRouter);
+const router = express.Router();
 
 
-//TODO: Create a GET /musicians route to return all musicians 
 
-/* app.get('/musicians', async(req, res)=>{
+
+router.get('/musicians', async(req, res)=>{
     try{
         const musicians = await Musician.findAll();
         res.json(musicians)
@@ -23,20 +13,20 @@ app.use("/musicians", musicianRouter);
     }
 });
 
-app.get('/bands', async(req, res)=>{
+/* router.get('/bands', async(req, res)=>{
     try{
         const bands = await Band.findAll();
         res.json(bands);
     }catch(error){
         res.status(500).json({error: `An error occured when fetching bands`})
     }
-});
+}); */
 
 //create route for get musicians/:id, should return musician 
 
-app.use(express.json());
 
-app.get('/musicians/:id', async(req, res, next)=>{
+
+router.get('/musicians/:id', async(req, res, next)=>{
     try{
         const id = req.params.id;
         const musician = await Musician.findByPk(id);
@@ -47,11 +37,10 @@ app.get('/musicians/:id', async(req, res, next)=>{
 })
 
 
-//Create route update(put) and delete
-app.use(express.urlencoded());
+
 
 //Create new artist
-app.post('/musicians', async(req, res, next)=>{
+router.post('/musicians', async(req, res, next)=>{
     try{
         const artist = await Musician.create(req.body);
         res.json(artist);
@@ -62,7 +51,7 @@ app.post('/musicians', async(req, res, next)=>{
 })
 
 //Update musisican by id
-app.put('/musicians/:id', async(req, res, next)=>{
+router.put('/musicians/:id', async(req, res, next)=>{
     try{
         const musician = await Musician.findByPk(req.params.id)
         const updated = await musician.update(req.body)
@@ -72,9 +61,9 @@ app.put('/musicians/:id', async(req, res, next)=>{
     catch(err){
         next(err);
     }
-}) */
+})
 //Delete by id
-/* app.delete('/musicians/:id', async (req, res, next)=>{
+router.delete('/musicians/:id', async (req, res, next)=>{
    try{
     // const deleted = await Musician.findByPk(req.params.id);
     await Musician.destroy({
@@ -85,8 +74,6 @@ app.put('/musicians/:id', async(req, res, next)=>{
     next(err);
    }
     
-}) */
+})
 
-
-
-module.exports = app;
+module.exports = router;
