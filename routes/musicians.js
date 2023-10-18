@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Musician = require("../models/Musician")
-
+const {check, validationResult} = require("express-validator");
 
 router.get('/', async(req, res)=>{
     try{
@@ -39,22 +39,30 @@ router.get('/:id', async(req, res, next)=>{
 
 
 //Create new artist
-router.post('/', async(req, res, next)=>{
-    try{
+
+//ADD VALIDATIONS (non empty inputs)
+router.post('/',[
+    check('name').not().isEmpty().trim(),
+    check('instrument').not().isEmpty().trim()
+], async(req, res, next)=>{
+
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        //log the error
+        res.json({error: errors.array()})//we should see the results for multiple errors 
+    }else{
+        //if no errors, POST
         const artist = await Musician.create(req.body);
         res.json(artist);
-    }
-    catch(err){
-        next(err);
-    }
-})
+    }  
+});
 
 //Update musisican by id
 router.put('/:id', async(req, res, next)=>{
     try{
         const musician = await Musician.findByPk(req.params.id)
         const updated = await musician.update(req.body)
-        console.log(updated);
+        //console.log(updated);
         res.json(updated);
     }
     catch(err){

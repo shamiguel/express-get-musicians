@@ -1,7 +1,7 @@
 // install dependencies
-const { execSync } = require('child_process');
-execSync('npm install');
-execSync('npm run seed');
+//const { execSync } = require('child_process');
+//execSync('npm install');
+//execSync('npm run seed');
 
 const request = require("supertest")
 const { db } = require('./db/connection');
@@ -47,18 +47,38 @@ describe('./musicians/:id endpoint', ()=>{
 })
 
 describe('./musicians/:id additional testing', () => {
+    //POST Success
     it('creates a new musician', async ()=> {
         const response = await request(app)
         .post('/musicians')
         .expect(200);
+    });
+    //POST failure
+    it('sends an array of errors if validation fails', async()=>{
+        const response = await request(app)
+        .post('/musicians')
+        .send({
+            name: "",
+            instrument: ""
+        })
+        const data = JSON.parse(response.text)
+        console.log(response.body.error)
+        console.log(data.error)
+        expect(response.statusCode).toBe(200)
+        expect(Array.isArray(response.body.error)).toBe(true);
+        expect(data.error).toEqual(response.body.error);
     })
 
+
+
+
+    //PUT Success
     it('updates a musician based on id', async ()=> {
         const response = await request(app)
         .put('/musicians/3')
         .send({name:"Michael Jackson"})
         .expect(200)
-        console.log(response)
+        //console.log(response)
         expect(response.body.name).toBe('Michael Jackson')
     })
 
