@@ -68,8 +68,8 @@ describe('./musicians/:id additional testing', () => {
             instrument: ""
         })
         const data = JSON.parse(response.text)
-        console.log(response.body.error)
-        console.log(data.error)
+        //console.log(response.body.error)
+        //console.log(data.error)
         expect(response.statusCode).toBe(200)
         expect(Array.isArray(response.body.error)).toBe(true);
         expect(data.error).toEqual(response.body.error);
@@ -81,10 +81,25 @@ describe('./musicians/:id additional testing', () => {
     //PUT Success
     it('updates a musician based on id', async ()=> {
         const response = await request(app)
-        .put('/musicians/3')
+        .put('/musicians/1')
         .send({name:"Michael Jackson"})
         .expect(200)
+        console.log(response.body);
         expect(response.body.name).toBe('Michael Jackson')
+    })
+
+    //Put Failure
+    it("send array if validation fails", async ()=>{
+        const response = await request(app)
+        .put('/musicians/1')
+        .send({
+            name: "",
+            instrument: ""
+        })
+        const data = JSON.parse(response.text)
+        expect(response.statusCode).toBe(200)
+        expect(Array.isArray(response.body.error)).toBe(true);
+        expect(data.error).toEqual(response.body.error);
     })
 
     it('deletes a musician based on id', async () => {
