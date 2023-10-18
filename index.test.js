@@ -1,8 +1,3 @@
-// install dependencies
-//const { execSync } = require('child_process');
-//execSync('npm install');
-//execSync('npm run seed');
-
 const request = require("supertest")
 const { db } = require('./db/connection');
 const { Musician } = require('./models/index')
@@ -24,16 +19,27 @@ describe('./musicians endpoint', () => {
         expect(true).toBe(true);
     })
 });
-/*
+
 describe('./bands endpoint', () => {
     // Write your tests here
     it('successful get method returns bands', async()=>{
         const response = await request(app).get('/bands');
-    
         expect(response.statusCode).toBe(200);
+        // console.log(response.body[0]);
+        expect(response.body[0].name).toContain("The Beatles");
+        expect(response.body[0].musicians[0].name).toBe("Mick Jagger");
     });
 })
-*/
+
+describe('./bands/:id endpoint', () => {
+    it("finds band by id with musicians", async () => {
+        const response = await request(app).get('/bands/1');
+        expect(response.statusCode).toBe(200);
+        expect(response.body.name).toBe('The Beatles')
+        expect(response.body.musicians[0].name).toBe("Mick Jagger")
+    })
+})
+
 ////// Workshop 2 TESTS!!!!! START HERE!!!!
 
 describe('./musicians/:id endpoint', ()=>{
@@ -78,7 +84,6 @@ describe('./musicians/:id additional testing', () => {
         .put('/musicians/3')
         .send({name:"Michael Jackson"})
         .expect(200)
-        //console.log(response)
         expect(response.body.name).toBe('Michael Jackson')
     })
 

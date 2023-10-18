@@ -62,7 +62,6 @@ router.put('/:id', async(req, res, next)=>{
     try{
         const musician = await Musician.findByPk(req.params.id)
         const updated = await musician.update(req.body)
-        //console.log(updated);
         res.json(updated);
     }
     catch(err){
