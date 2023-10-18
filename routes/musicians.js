@@ -43,7 +43,10 @@ router.get('/:id', async(req, res, next)=>{
 //ADD VALIDATIONS (non empty inputs)
 router.post('/',[
     check('name').not().isEmpty().trim(),
-    check('instrument').not().isEmpty().trim()
+    check('instrument').not().isEmpty().trim(),
+    // Min/Max number of characters
+    check('name').isLength({min: 2, max:20}),
+    check('instrument').isLength({min:2, max:20})
 ], async(req, res, next)=>{
 
     const errors = validationResult(req)
@@ -58,15 +61,23 @@ router.post('/',[
 });
 
 //Update musisican by id
-router.put('/:id', async(req, res, next)=>{
-    try{
+router.put('/:id', [
+    check('name').optional().not().isEmpty().trim(),
+    check('instrument').optional().not().isEmpty().trim(),
+    // Min/Max number of characters
+    check('name').optional().isLength({min: 2, max:20}),
+    check('instrument').optional().isLength({min:2, max:20})
+], async(req, res, next)=>{
+    const errors = validationResult(req)//server side validation
+    if(!errors.isEmpty()){
+        //log the error
+        res.json({error: errors.array()})//we should see the results for multiple errors 
+    }else{
+        //if no errors update musician
         const musician = await Musician.findByPk(req.params.id)
         const updated = await musician.update(req.body)
         res.json(updated);
-    }
-    catch(err){
-        next(err);
-    }
+    } 
 })
 //Delete by id
 router.delete('/:id', async (req, res, next)=>{
